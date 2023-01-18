@@ -35,7 +35,7 @@ export default async function run(
       continue;
     }
 
-    const runningTask = executor.executeTask(task).finally(onComplete(task));
+    const runningTask = executor.executeTask(task).then(onComplete(task));
 
     running.set(task.targetId, runningTask);
   }
@@ -50,7 +50,7 @@ export default async function run(
         if (maxThreads && running.size == maxThreads) return;
         if (running.has(task.targetId)) continue;
 
-        const runningTask = executor.executeTask(task).finally(onComplete(task));
+        const runningTask = executor.executeTask(task).then(onComplete(task));
 
         running.set(task.targetId, runningTask);
         pending.delete(task);
